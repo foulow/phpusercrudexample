@@ -10,7 +10,24 @@
         header('Location: read_users.php');
     };
 
-    if (isset($id)) {
+    $ok = true;
+    $db = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
+    $sql = sprintf('SELECT * FROM users WHERE id=%s',
+        $db->real_escape_string($id));
+    $result = $db->query($sql);
+
+    $row = $result->fetch_object();
+    if ($row != null) {
+        $isAdmin = $row->isAdmin;
+        if ($isAdmin === '1') {
+            $ok = false;
+        }
+    } else {
+        header($http[404]);
+        header('Location: read_users.php?badRequest=1');
+    };
+
+    if (isset($id) && $ok === true) {
         $db = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
         $sql = "DELETE FROM users WHERE id=$id";
         $db->query($sql);
@@ -23,7 +40,10 @@
         $redirect = printf('<meta http-equiv="refresh" content="%s; url=read_users.php">', REDIRECT_TIMEOUT);
         header($http[200]);
         header( $redirect );
-    }
+    } else {
+        header($http[404]);
+        header('Location: read_users.php?badRequest=1');
+    };
 
     readfile('footer.tmpl.html');
 ?>

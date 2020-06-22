@@ -9,6 +9,23 @@
         header($http[401]);
         header('Location: read_users.php');
     };
+
+    $ok = true;
+    $db = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
+    $sql = sprintf('SELECT * FROM users WHERE id=%s',
+        $db->real_escape_string($id));
+    $result = $db->query($sql);
+
+    $row = $result->fetch_object();
+    if ($row != null) {
+        $isAdmin = $row->isAdmin;
+        if ($isAdmin === '1') {
+            $ok = false;
+        }
+    } else {
+        header($http[404]);
+        header('Location: read_users.php?badRequest=1');
+    };
 ?>
 
 <div class="container p-3 my-3 border">
@@ -18,8 +35,7 @@
     $gender = '';
     $color = '';
     
-    if (isset($_POST['submit'])) {
-        $ok = true;
+    if (isset($_POST['submit']) && $ok === true) {
         $messages = array(4);
         $message_count = 0;
         $messages[$message_count] = 'User updated.';
@@ -72,6 +88,9 @@
             $message_count,
             implode(', ', $messages));
         };
+    } else if ($ok === false) {
+        header($http[404]);
+        header('Location: read_users.php?badRequest=1');
     } else {
         $db = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
         $sql = "SELECT * FROM users WHERE id=$id";

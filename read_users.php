@@ -3,16 +3,16 @@
     require_once 'config.inc.php';
     
     readfile('header.tmpl.html');
-
-    $db = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
-    $sql = 'SELECT * FROM users WHERE isAdmin=0';
-    $result = $db->query($sql);
 ?>
 
 <div class="container p-3 my-3 border">
 <h1 class="text-center">List of users</h1>
 <ul class="list-group">
 <?php
+    $db = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
+    $sql = 'SELECT * FROM users WHERE isAdmin=0';
+    $result = $db->query($sql);
+    
     foreach ($result as $row) {
         printf(
             '<li class="list-group-item d-flex justify-content-between"><span style="color: %s">%s (%s)</span>
