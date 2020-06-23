@@ -1,9 +1,11 @@
 <?php
-    // Database connection constant definitions.
+    // Database connection constant definitions for MySQL.
     // define('MYSQL_HOST', 'localhost');
-    // define('MYSQL_USER', 'id14167025_user');
-    // define('MYSQL_PASSWORD', '!os|X5N7qN|{l53}');
-    // define('MYSQL_DATABASE', 'id14167025_php');
+    // define('MYSQL_USER', 'user');
+    // define('MYSQL_PASSWORD', 'password');
+    // define('MYSQL_DATABASE', 'php');
+    
+    // Database connection constant definitions for PostgreSQL.
     define('POSTGRESQL_HOST', 'ec2-35-173-94-156.compute-1.amazonaws.com');
     define('POSTGRESQL_PORT', '5432');
     define('POSTGRESQL_DATABASE', 'd91saetkne2804');
