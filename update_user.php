@@ -10,15 +10,16 @@
         header('Location: read_users.php');
     };
 
-    $ok = true;
-    $db = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
-    $sql = sprintf('SELECT * FROM users WHERE id=%s',
-        $db->real_escape_string($id));
-    $result = $db->query($sql);
+    require 'connections/postgresql.php';
 
-    $row = $result->fetch_object();
-    if ($row != null) {
-        $isAdmin = $row->isAdmin;
+    $ok = true;
+    $db = new PostgreSQLDBContext();
+    $db->query("SELECT * FROM users WHERE id=$id");
+
+    $line = $db->fetch_result();
+    $db->free_result();
+    if ($line != null && $line != false) {
+        $isAdmin = $line['isadmin'];
         if ($isAdmin === '1') {
             $ok = false;
         }
@@ -63,20 +64,19 @@
         };
 
         if ($ok === true) {
-            $db = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
             $sql = sprintf(
                 "UPDATE users SET name='%s', gender='%s', color='%s'
                     WHERE id=%s",
-                $db->real_escape_string($name),
-                $db->real_escape_string($gender),
-                $db->real_escape_string($color),
+                htmlspecialchars($name),
+                htmlspecialchars($gender),
+                htmlspecialchars($color),
                 $id);
             $db->query($sql);
+            $db->free_result();
             printf('<div class="text-success"><p>%s
                 <br>You will be redirected in %s seconds, if not <a href="read_users.php">clic here</a> to go back to the Read page.</p></div>',
                 $messages[$message_count],
                 REDIRECT_TIMEOUT);
-            $db->close();
 
             $redirect = printf('<meta http-equiv="refresh" content="%s; url=read_users.php">', REDIRECT_TIMEOUT);
             header($http[200]);
@@ -92,15 +92,18 @@
         header($http[404]);
         header('Location: read_users.php?badRequest=1');
     } else {
-        $db = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
-        $sql = "SELECT * FROM users WHERE id=$id";
-        $result = $db->query($sql);
-        foreach ($result as $row) {
-            $name = $row['name'];
-            $gender = $row['gender'];
-            $color = $row['color'];
+        $db->query("SELECT * FROM users WHERE id=$id");
+        $lines = $db->fetch_all_results();
+        if ($lines != null && $lines != false) {
+            foreach ($lines as $line) {
+                $name = $line['name'];
+                $gender = $line['gender'];
+                $color = $line['color'];
+            }
+        } else {
+            header($http[404]);
+            header('Location: read_users.php?badRequest=1');
         }
-        $db->close();
     };
 ?>
 

@@ -9,6 +9,8 @@
         header($http[401]);
         header('Location: read_users.php');
     };
+
+    require 'connections/postgresql.php';
 ?>
 
 <div class="container p-3 my-3 border">
@@ -31,14 +33,13 @@
         } else {
             $password = $_POST['password'];
 
-            $db = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
-            $sql = "SELECT hash FROM users WHERE id=$id";
-            $result = $db->query($sql);
-            $row = $result->fetch_object();
-            if ($row != null) {
-                $hashed_password = $row->hash;
+            $db = new PostgreSQLDBContext();
+            $db->query("SELECT * FROM users WHERE id=$id");
+            $line = $db->fetch_result();
+            $db->free_result();
+            if ($line != null && $line != false) {
+                $hashed_password = $line['hash'];
             }
-            $db->close();
 
             if(!password_verify($password, $hashed_password)) {
                 $ok = false;
@@ -69,11 +70,9 @@
         if ($ok === true) {
             $hash = password_hash($new_password, PASSWORD_DEFAULT);
 
-            $db = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
-            $sql = sprintf(
-                "UPDATE users SET hash='%s'
-                    WHERE id=%s",
-                $db->real_escape_string($hash),
+            $sql = sprintf("UPDATE users SET hash='%s'
+                WHERE id=%s",
+                htmlspecialchars($hash),
                 $id);
             $db->query($sql);
             printf('<div class="text-success"><p>%s
@@ -81,7 +80,6 @@
                 $messages[$message_count],
                 REDIRECT_TIMEOUT,
                 $id);
-            $db->close();
 
             header($http[200]);
             $redirect = printf('<meta http-equiv="refresh" content="%s; url=update_user.php?id=%s">', REDIRECT_TIMEOUT, $id);

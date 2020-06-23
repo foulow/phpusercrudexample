@@ -1,9 +1,14 @@
 <?php
     // Database connection constant definitions.
-    define('MYSQL_HOST', '{server_name}');
-    define('MYSQL_USER', '{user_name}');
-    define('MYSQL_PASSWORD', '{user_password}');
-    define('MYSQL_DATABASE', '{database_name}');
+    // define('MYSQL_HOST', 'localhost');
+    // define('MYSQL_USER', 'id14167025_user');
+    // define('MYSQL_PASSWORD', '!os|X5N7qN|{l53}');
+    // define('MYSQL_DATABASE', 'id14167025_php');
+    define('POSTGRESQL_HOST', 'ec2-35-173-94-156.compute-1.amazonaws.com');
+    define('POSTGRESQL_PORT', '5432');
+    define('POSTGRESQL_DATABASE', 'd91saetkne2804');
+    define('POSTGRESQL_USER', 'cqieurjxpzdfun');
+    define('POSTGRESQL_PASSWORD', 'c2e3ee9e3f74045debbcfc8fda77df52debad57e0c36316674503f4f25945941');
 
     // Other constant definitions.
     define('REDIRECT_TIMEOUT', '5');

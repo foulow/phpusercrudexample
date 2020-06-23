@@ -7,6 +7,8 @@
     };
 
     readfile('header.tmpl.html');
+
+    require 'connections/postgresql.php';
 ?>
 
 <div class="container p-3 my-3 border">
@@ -27,20 +29,20 @@
         $name = $_POST['name'];
         $password = $_POST['password'];
 
-        $db = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
+        $db = new PostgreSQLDBContext();
         $sql = sprintf("SELECT * FROM users WHERE name='%s'",
-            $db->real_escape_string($name));
-        $result = $db->query($sql);
+            htmlspecialchars($name, ENT_QUOTES));
+        $db->query($sql);
 
-        $row = $result->fetch_object();
-        if ($row != null) {
-            $hash = $row->hash;
+        $line = $db->fetch_result();
+        if ($line != null && $line != false) {
+            $hash = $line['hash'];
             if (password_verify($password, $hash)) {
                 $message = 'Login successful.';
                 session_start();
 
-                $_SESSION['username'] = $row->name;
-                $_SESSION['isAdmin'] = $row->isAdmin;
+                $_SESSION['username'] = $line['name'];
+                $_SESSION['isAdmin'] = $line['isadmin'];
             } else {
                 $ok = false;
                 $message = 'Login failed. Incorrect user name or password.';
@@ -50,7 +52,6 @@
             $message = 'Login failed. Incorrect user name or password.';
         };
         $message_type = ($ok)? 'success' : 'danger';
-        $db->close();
 
         if ($ok === true) {
             printf('<div class="text-%s"><p>%s</p>

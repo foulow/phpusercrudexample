@@ -10,15 +10,16 @@
         header('Location: read_users.php');
     };
 
-    $ok = true;
-    $db = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
-    $sql = sprintf('SELECT * FROM users WHERE id=%s',
-        $db->real_escape_string($id));
-    $result = $db->query($sql);
+    require 'connections/postgresql.php';
 
-    $row = $result->fetch_object();
-    if ($row != null) {
-        $isAdmin = $row->isAdmin;
+    $ok = true;
+    $db = new PostgreSQLDBContext();
+    $db->query("SELECT * FROM users WHERE id=$id");
+
+    $line = $db->fetch_result();
+    $db->free_result();
+    if ($line != null && $line != false) {
+        $isAdmin = $line['isadmin'];
         if ($isAdmin === '1') {
             $ok = false;
         }
@@ -28,14 +29,11 @@
     };
 
     if (isset($id) && $ok === true) {
-        $db = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
-        $sql = "DELETE FROM users WHERE id=$id";
-        $db->query($sql);
+        $db->query("DELETE FROM users WHERE id=$id");
         printf('<div class="container p-3 my-3 bg-dark text-white"><h1 class="text-center">User deleted.</h1>
             <p class="text-center">You will be redirected in %s seconds, if not <a href="read_users.php">clic here</a> to go back to the Read page.</p>
             </div>',
             REDIRECT_TIMEOUT);
-        $db->close();
     
         $redirect = printf('<meta http-equiv="refresh" content="%s; url=read_users.php">', REDIRECT_TIMEOUT);
         header($http[200]);

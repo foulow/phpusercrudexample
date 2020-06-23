@@ -6,6 +6,8 @@
         $style = $_GET['style'];
         if ($style === '1') readfile('header.tmpl.html');
     };
+    
+    require 'connections/postgresql.php';
 ?>
 
 <div class="container p-3 my-3 border">
@@ -67,18 +69,17 @@
         if ($ok === true) {
             $hash = password_hash($password, PASSWORD_DEFAULT);
 
-            $db = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE);
+            $db = new PostgreSQLDBContext();
             $sql = sprintf(
                 "INSERT INTO users (name, gender, color, hash) VALUES (
                     '%s','%s','%s', '%s')",
-                $db->real_escape_string($name),
-                $db->real_escape_string($gender),
-                $db->real_escape_string($color),
-                $db->real_escape_string($hash));
+                htmlspecialchars($name, ENT_QUOTES),
+                htmlspecialchars($gender, ENT_QUOTES),
+                htmlspecialchars($color, ENT_QUOTES),
+                htmlspecialchars($hash, ENT_QUOTES));
             $db->query($sql);
             printf('<div class="text-success"><p>%s</p></div>',
                 $messages[$message_count]);
-            $db->close();
         } else {
             printf('<div class="text-danger"><p>
             <br>Please, complete the following %s form elements:
