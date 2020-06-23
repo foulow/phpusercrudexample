@@ -3,6 +3,7 @@ A PHP vanilla User CRUD example with MySQL
 
 ## Configuration
 Just change the contants value defined on "config.inc.php" for the connection to your MySQL Server (preferably use localhost).<br>
+
     // Database connection constant definitions.
     define('MYSQL_HOST', '{server_name}');
     define('MYSQL_USER', '{user_name}');
@@ -19,6 +20,7 @@ Just change the contants value defined on "config.inc.php" for the connection to
 
 ***Note:*** You can generete the db and tables used for this example using the "php.sql" file on the Migration folder.
 Or just create your on table and default root user with the following squeries (PostgreSQL queries):<br>
+
     CREATE DATABASE databasename;
     CREATE TABLE users (
         id SERIAL PRIMARY KEY,
