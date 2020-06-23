@@ -1,16 +1,16 @@
 <?php
-    // Database connection constant definitions for MySQL.
-    // define('MYSQL_HOST', 'localhost');
-    // define('MYSQL_USER', 'user');
-    // define('MYSQL_PASSWORD', 'password');
-    // define('MYSQL_DATABASE', 'php');
-    
+    // Database connection constant definitions.
+    define('MYSQL_HOST', '{server_name}');
+    define('MYSQL_USER', '{user_name}');
+    define('MYSQL_PASSWORD', '{user_password}');
+    define('MYSQL_DATABASE', '{database_name}');
+
     // Database connection constant definitions for PostgreSQL.
-    define('POSTGRESQL_HOST', 'ec2-35-173-94-156.compute-1.amazonaws.com');
-    define('POSTGRESQL_PORT', '5432');
-    define('POSTGRESQL_DATABASE', 'd91saetkne2804');
-    define('POSTGRESQL_USER', 'cqieurjxpzdfun');
-    define('POSTGRESQL_PASSWORD', 'c2e3ee9e3f74045debbcfc8fda77df52debad57e0c36316674503f4f25945941');
+    define('POSTGRESQL_HOST', '{server_name}');
+    define('POSTGRESQL_PORT', '{server_port}');
+    define('POSTGRESQL_DATABASE', '{database_name}');
+    define('POSTGRESQL_USER', '{user_name}');
+    define('POSTGRESQL_PASSWORD', '{database_name}');
 
     // Other constant definitions.
     define('REDIRECT_TIMEOUT', '5');
