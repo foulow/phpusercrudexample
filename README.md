@@ -1,4 +1,4 @@
-# phpUserCRUDExample
+# phpUserCRUDxample
 A PHP vanilla User CRUD example with MySQL and PostgreSQL support.
 
 ## Configuration
