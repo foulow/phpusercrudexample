@@ -1,5 +1,5 @@
-# phpUserCRUDwithMySQL
-A PHP vanilla User CRUD example with MySQL
+# phpUserCRUDExample
+A PHP vanilla User CRUD example with MySQL and PostgreSQL support.
 
 ## Configuration
 Just change the contants value defined on "config.inc.php" for the connection to your MySQL Server (preferably use localhost).<br>
@@ -12,32 +12,13 @@ Just change the contants value defined on "config.inc.php" for the connection to
 
     // Database connection constant definitions for PostgreSQL.
     define('POSTGRESQL_HOST', '{server_name}');
-    define('POSTGRESQL_PORT', '{server_port}');
     define('POSTGRESQL_DATABASE', '{database_name}');
     define('POSTGRESQL_USER', '{user_name}');
     define('POSTGRESQL_PASSWORD', '{database_name}');
 
+    // set the dbcontext to be use mysql :=> MySQL, pgsql :=> PostgreSQL
+    define('DBCONTEXT', 'mysql');
 
-***Note:*** You can generete the db and tables used for this example using the "php.sql" file on the Migration folder.
-Or just create your on table and default root user with the following squeries (PostgreSQL queries):<br>
+***Note:*** You can generete the db and tables used for this example using the "mysql_db_migration.sql" or "postgre_db_migration.sql" filse on the Migrations folder. Or just create your on database. 
 
-    CREATE DATABASE databasename;
-    CREATE TABLE users (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(50) NOT NULL,
-        gender VARCHAR(1) NOT NULL,
-        color VARCHAR(10) NOT NULL,
-        hash VARCHAR(100) NOT NULL,
-        isadmin BIT(1) NOT NULL DEFAULT b'0',
-    );
-    ALTER TABLE users
-        ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
-			START WITH 1 INCREMENT BY 1 MAXVALUE 2147483647);
-    COMMIT;
-    INSERT INTO users (name, gender, color, hash, isadmin) VALUES (
-        'root', 'o', '#0f0', '$2y$10$7LylyImbz7K3yWzT7JTzNO/ziSj.7Fo/TEF1n19qw9eeO54CpjkzW', b'1'
-    );
-
-This will create a database with a table users and a registry for a user:root with a password:root hashed and with admin status.
-
-Hope this is usefull.
+Hopping this can be of any help for thouse learning PHP.

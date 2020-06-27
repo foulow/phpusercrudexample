@@ -12,6 +12,9 @@
     define('POSTGRESQL_USER', '{user_name}');
     define('POSTGRESQL_PASSWORD', '{database_name}');
 
+    // set the dbcontext to be use mysql :=> MySQL, pgsql :=> PostgreSQL
+    define('DBCONTEXT', 'mysql');
+
     // Other constant definitions.
     define('REDIRECT_TIMEOUT', '5');
 
@@ -57,4 +60,9 @@
         503 => "HTTP/1.1 503 Service Unavailable",
         504 => "HTTP/1.1 504 Gateway Time-out"
     );
+
+    static $p = 'home';
+    if (isset($_GET['p'])) {
+        $p = $_GET['p'];
+    }
 ?>
