@@ -1,16 +1,18 @@
 <?php
     // Database connection constant definitions for MySQL.
-    // define('MYSQL_HOST', 'localhost');
-    // define('MYSQL_USER', 'user');
-    // define('MYSQL_PASSWORD', 'password');
-    // define('MYSQL_DATABASE', 'php');
+    define('MYSQL_HOST', 'localhost');
+    define('MYSQL_USER', 'user');
+    define('MYSQL_PASSWORD', 'password');
+    define('MYSQL_DATABASE', 'php');
     
     // Database connection constant definitions for PostgreSQL.
     define('POSTGRESQL_HOST', 'ec2-35-173-94-156.compute-1.amazonaws.com');
-    define('POSTGRESQL_PORT', '5432');
     define('POSTGRESQL_DATABASE', 'd91saetkne2804');
     define('POSTGRESQL_USER', 'cqieurjxpzdfun');
     define('POSTGRESQL_PASSWORD', 'c2e3ee9e3f74045debbcfc8fda77df52debad57e0c36316674503f4f25945941');
+
+    // set the dbcontext to be use mysql :=> MySQL, pgsql :=> PostgreSQL
+    define('DBCONTEXT', 'mysql');
 
     // Other constant definitions.
     define('REDIRECT_TIMEOUT', '5');
@@ -57,4 +59,9 @@
         503 => "HTTP/1.1 503 Service Unavailable",
         504 => "HTTP/1.1 504 Gateway Time-out"
     );
+
+    static $p = 'home';
+    if (isset($_GET['p'])) {
+        $p = $_GET['p'];
+    }
 ?>

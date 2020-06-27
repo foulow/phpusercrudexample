@@ -1,14 +1,23 @@
 <?php
-    readfile('header.tmpl.html');
-?>
+    require_once 'config/config.inc.php';
 
-<div class="container p-3 my-3 bg-primary text-white center">
-    <h1 class="text-center">Welcome to the home page.</h1>
-    <p class="text-center">Please choose one of the menu options to test the CRUP.</p>
-</div>
+    readfile('views/header.tmpl.html');
 
-<?php
-    require 'create_user.inc.php';
+    if ($p == 'home') {
+        readfile('views/greetings.tmpl.html');
+        require 'views/user_crud/create_user.inc.php';
+    } else if ($p == 'login') {
+        require 'views/login.inc.php';
+    } else if ($p == 'logout') {
+        require 'views/logout.inc.php';
+    } else {
+        if (file_exists("views/user_crud/".$p.".inc.php")){
+            require "views/user_crud/".$p.".inc.php";
+        }else{
+            echo '<div class="container p-3 my-3 border center"><h1 class="text-center">404 Not Found.</h1>';
+            echo '<p class="text-danger text-center">The page you are trying to access: <b>'.$p.'</b> was not found. <a href="?p=home">Clic here</a> to go back to the Home page.</p></div>';
+        }
+    }
 
-    readfile('footer.tmpl.html');
+    readfile('views/footer.tmpl.html');
 ?>

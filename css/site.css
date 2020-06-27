@@ -1,0 +1,12 @@
+.error {
+    color: red;
+    font-weight: 400;
+    display: block;
+    padding: 6px 0;
+    font-size: 14px;
+}
+
+.form-control.error {
+    border-color: red;
+    padding: .375rem .75rem;
+}

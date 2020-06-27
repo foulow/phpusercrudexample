@@ -1,14 +1,9 @@
 <?php
-    require_once 'config.inc.php';
+    require_once 'config/config.inc.php';
     
-    $isAdmin = '-1';
     if (isset($_GET['isAdmin']) && ctype_digit($_GET['isAdmin'])) {
         $isAdmin = $_GET['isAdmin'];
     };
-
-    readfile('header.tmpl.html');
-
-    require 'connections/postgresql.php';
 ?>
 
 <div class="container p-3 my-3 border">
@@ -18,9 +13,9 @@
     $password = '';
     $message = '';
 
-    if ($isAdmin === '0') {
+    if (isset($isAdmin)) {
         echo '<div class="text-danger"><p>User has not admin access. </p></div>
-            <div class="text-danger"><p>Fist <a href="logout.php">Log out</a> then, Log in as {user:root; password:root} 
+            <div class="text-danger"><p>Fist <a href="?p=logout">Log out</a> then, Log in as {user:root; password:root} 
             <br>to access the Read, Update or Delete page.</p></div>';
     };
 
@@ -29,7 +24,13 @@
         $name = $_POST['name'];
         $password = $_POST['password'];
 
-        $db = new PostgreSQLDBContext();
+        if (DBCONTEXT === 'mysql') {
+            require 'connections/mysql.inc.php';
+            $db = new MySQLDBContext();
+        } else if (DBCONTEXT === 'pgsql') {
+            require 'connections/postgresql.inc.php';
+            $db = new PostgreSQLDBContext();
+        };
         $sql = sprintf("SELECT * FROM users WHERE name='%s'",
             htmlspecialchars($name, ENT_QUOTES));
         $db->query($sql);
@@ -55,13 +56,13 @@
 
         if ($ok === true) {
             printf('<div class="text-%s"><p>%s</p>
-                <p class="text-center">You will be redirected in %s seconds, if not <a href="index.php">clic here</a> to go back to the Home page.</p>
+                <p class="text-center">You will be redirected in %s seconds, if not <a href="?p=home">clic here</a> to go back to the Home page.</p>
                 </div>',
                 $message_type,
                 $message,
                 REDIRECT_TIMEOUT);
 
-            $redirect = printf('<meta http-equiv="refresh" content="%s; url=index.php">', REDIRECT_TIMEOUT);
+            $redirect = printf('<meta http-equiv="refresh" content="%s; url=?p=home">', REDIRECT_TIMEOUT);
             header($http[200]);
             header( $redirect );
         } else {
@@ -86,7 +87,3 @@
     <input type="submit"  class="btn btn-primary" name="submit" value="Login">
 </form>
 </div>
-
-<?php
-    readfile('footer.tmpl.html');
-?>

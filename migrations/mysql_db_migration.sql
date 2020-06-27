@@ -28,19 +28,19 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
+  `id` int IDENTITY(1,1) NOT NULL,
   `name` varchar(50) NOT NULL,
   `gender` varchar(1) NOT NULL,
   `color` varchar(10) NOT NULL,
   `hash` varchar(100) NOT NULL,
-  `isAdmin` bit(1) NOT NULL DEFAULT b'0'
+  `isadmin` bit(1) NOT NULL DEFAULT b'0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `gender`, `color`, `hash`, `isAdmin`) VALUES
+INSERT INTO `users` (`id`, `name`, `gender`, `color`, `hash`, `isadmin`) VALUES
 (1, 'root', 'o', '#0f0', '$2y$10$7LylyImbz7K3yWzT7JTzNO/ziSj.7Fo/TEF1n19qw9eeO54CpjkzW', b'1');
 
 --
