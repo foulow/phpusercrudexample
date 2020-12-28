@@ -1,4 +1,8 @@
 <?php
+    if ( ! defined('BASE_PATH')) {
+        define('BASE_PATH', $_SERVER['DOCUMENT_ROOT']."/");
+        require BASE_PATH."unfound.inc.php";
+    }
     // Database connection constant definitions.
     define('MYSQL_HOST', '{server_name}');
     define('MYSQL_USER', '{user_name}');
@@ -7,13 +11,13 @@
 
     // Database connection constant definitions for PostgreSQL.
     define('POSTGRESQL_HOST', '{server_name}');
-    define('POSTGRESQL_PORT', '{server_port}');
+    define('POSTGRESQL_PORT', '{server_entry_port}');
     define('POSTGRESQL_DATABASE', '{database_name}');
     define('POSTGRESQL_USER', '{user_name}');
-    define('POSTGRESQL_PASSWORD', '{database_name}');
+    define('POSTGRESQL_PASSWORD', '{user_password}');
 
     // set the dbcontext to be use mysql :=> MySQL, pgsql :=> PostgreSQL
-    define('DBCONTEXT', 'mysql');
+    define('DBCONTEXT', 'pgsql');
 
     // Other constant definitions.
     define('REDIRECT_TIMEOUT', '5');

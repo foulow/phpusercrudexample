@@ -1,1 +1,13 @@
+# Disable file indexing
 Options -Indexes
+
+# Enable redirection settings
+RewriteEngine On
+
+# Our app bootstrap file is index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
+
+# Defines 404 error pages content
+ErrorDocument 404 /unfound.inc.php

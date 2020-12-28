@@ -1,0 +1,8 @@
+{
+    "name": "foulow/phpusercrudxample",
+    "description": "A PHP vanilla User CRUD example with MySQL and PostgreSQL support.",
+    "require": {
+        "ext-memcached": "*",
+        "monolog/monolog": "^2.2"
+    }
+}

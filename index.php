@@ -1,8 +1,20 @@
 <?php
-    require_once 'config/config.inc.php';
+    // root constant definition to prevent direct file access.
+    define('BASE_PATH', $_SERVER['DOCUMENT_ROOT']."/");
+    
+    require_once "vendor/autoload.php";
+    require_once "config/config.inc.php";
 
+    // uncomment for server-side output log funtionality.
+    require_once "logger.inc.php";
+    /* replace composer.json `require` section with this:
+        "require": {
+            "ext-memcached": "*",
+            "monolog/monolog": "^2.2"
+        }
+       and run `composer install` on the terminal
+    */
     readfile('views/header.tmpl.html');
-
     if ($p == 'home') {
         readfile('views/greetings.tmpl.html');
         require 'views/user_crud/create_user.inc.php';
@@ -18,6 +30,5 @@
             echo '<p class="text-danger text-center">The page you are trying to access: <b>'.$p.'</b> was not found. <a href="?p=home">Clic here</a> to go back to the Home page.</p></div>';
         }
     }
-
-    readfile('views/footer.tmpl.html');
+    readfile(BASE_PATH.'views/footer.tmpl.html');
 ?>

@@ -1,8 +1,12 @@
 <?php
-    require 'config/auth.inc.php';
+    if ( ! defined('BASE_PATH')) {
+        define('BASE_PATH', $_SERVER['DOCUMENT_ROOT']."/");
+        require BASE_PATH."unfound.inc.php";
+    }
+    require BASE_PATH.'config/auth.inc.php';
 
     if ($p != 'update_user') {
-        readfile('views/unfound.tmpl.html');
+        readfile(BASE_PATH.'views/unfound.tmpl.html');
     } else {
         if (isset($_GET['id']) && ctype_digit($_GET['id'])) {
             $id = $_GET['id'];
@@ -13,10 +17,10 @@
 
         $ok = true;
         if (DBCONTEXT === 'mysql') {
-            require 'connections/mysql.inc.php';
+            require BASE_PATH.'connections/mysql.inc.php';
             $db = new MySQLDBContext();
         } else if (DBCONTEXT === 'pgsql') {
-            require 'connections/postgresql.inc.php';
+            require BASE_PATH.'connections/postgresql.inc.php';
             $db = new PostgreSQLDBContext();
         };
         $db->query("SELECT * FROM users WHERE id=$id");

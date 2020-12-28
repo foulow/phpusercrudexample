@@ -1,6 +1,9 @@
 <?php
-    require_once 'config/config.inc.php';
-
+    if ( ! defined('BASE_PATH')) {
+        define('BASE_PATH', $_SERVER['DOCUMENT_ROOT']."/");
+        require BASE_PATH."unfound.inc.php";
+    }
+    
     session_start();
 
     if (isset($_SESSION['username'])) {
@@ -17,6 +20,6 @@
         REDIRECT_TIMEOUT);
 
     $redirect = printf('<meta http-equiv="refresh" content="%s; url=?p=login">', REDIRECT_TIMEOUT);
-    header($http[200]);
+    header($http[303]);
     header( $redirect );
 ?>

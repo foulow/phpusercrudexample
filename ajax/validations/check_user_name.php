@@ -1,7 +1,7 @@
 <?php
     header('Access-Control-Allow-Origin: *; Content-Type: application/text charset=UTF-8');
 
-    require "../../config/config.inc.php";
+    require '../../config/config.inc.php';
 
     if( !isset($_POST['username']) ) { 
         echo 'false';

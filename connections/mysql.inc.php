@@ -1,4 +1,8 @@
 <?php
+    if ( ! defined('BASE_PATH')) {
+        define('BASE_PATH', $_SERVER['DOCUMENT_ROOT']."/");
+        require BASE_PATH."unfound.inc.php";
+    }
 
     class MySQLDBContext {
 

@@ -1,5 +1,8 @@
 <?php
-    require_once 'config/config.inc.php';
+    if ( ! defined('BASE_PATH')) {
+        define('BASE_PATH', $_SERVER['DOCUMENT_ROOT']."/");
+        require BASE_PATH."unfound.inc.php";
+    }    
     
     if (isset($_GET['isAdmin']) && ctype_digit($_GET['isAdmin'])) {
         $isAdmin = $_GET['isAdmin'];
@@ -25,10 +28,10 @@
         $password = $_POST['password'];
 
         if (DBCONTEXT === 'mysql') {
-            require 'connections/mysql.inc.php';
+            require BASE_PATH.'connections/mysql.inc.php';
             $db = new MySQLDBContext();
         } else if (DBCONTEXT === 'pgsql') {
-            require 'connections/postgresql.inc.php';
+            require BASE_PATH.'connections/postgresql.inc.php';
             $db = new PostgreSQLDBContext();
         };
         $sql = sprintf("SELECT * FROM users WHERE name='%s'",
@@ -63,7 +66,7 @@
                 REDIRECT_TIMEOUT);
 
             $redirect = printf('<meta http-equiv="refresh" content="%s; url=?p=home">', REDIRECT_TIMEOUT);
-            header($http[200]);
+            header($http[303]);
             header( $redirect );
         } else {
             printf('<div class="text-%s"><p>%s</p>',

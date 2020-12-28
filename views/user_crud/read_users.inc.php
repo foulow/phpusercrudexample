@@ -1,8 +1,13 @@
 <?php
-    require 'config/auth.inc.php';
+    if ( ! defined('BASE_PATH')) {
+        define('BASE_PATH', $_SERVER['DOCUMENT_ROOT']."/");
+        require BASE_PATH."unfound.inc.php";
+    }
+    
+    require BASE_PATH.'config/auth.inc.php';
     
     if ($p != 'read_users') {
-        readfile('views/unfound.tmpl.html');
+        readfile(BASE_PATH.'views/unfound.tmpl.html');
     } else {
         if (isset($_GET['badRequest']) && ctype_digit($_GET['badRequest'])) {
             $badRequest = $_GET['badRequest'];
@@ -11,7 +16,7 @@
         }
 
         if (isset($badRequest)) {
-            readfile('views/bad_request.tmpl.html');
+            readfile(BASE_PATH.'views/bad_request.tmpl.html');
         }
     ?>
         <div class="container p-3 my-3 border">
@@ -19,10 +24,10 @@
         <ul class="list-group">
         <?php
             if (DBCONTEXT === 'mysql') {
-                require 'connections/mysql.inc.php';
+                require BASE_PATH.'connections/mysql.inc.php';
                 $db = new MySQLDBContext();
             } else if (DBCONTEXT === 'pgsql') {
-                require 'connections/postgresql.inc.php';
+                require BASE_PATH.'connections/postgresql.inc.php';
                 $db = new PostgreSQLDBContext();
             };
             $db->query("SELECT * FROM users WHERE isAdmin=b'0'");
