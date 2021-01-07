@@ -1,11 +1,11 @@
-# phpUserCRUDxample
+# phpUserCRUDexample
 A PHP vanilla User CRUD example with MySQL and PostgreSQL support.
 
 ## First steps
 To get this repository ready for personal use you can open a terminal and run the following commands:
 
-    $ git clone https://github.com/foulow/phpusercrudxample.git
-    $ cd phpusercrudxample
+    $ git clone https://github.com/foulow/phpusercrudexample.git
+    $ cd phpusercrudexample
     $ rm -rf ./.git/
     $ git init
     $ git add .
